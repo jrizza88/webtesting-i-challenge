@@ -62,7 +62,55 @@ describe('Enhancers', () => {
     }); // end of success testing function
 
     describe('should fail item', () => {
+        it('enhancement fail less than 15, increase durability by 5', () => {
+            const lowEnchancement = {
+                name: 'woodenstick',
+                enhancement: 1,
+                durability: 20
+            }
 
+            const actualEnchancement = fail(lowEnchancement);
+
+            expect(actualEnchancement).toMatchObject({...lowEnchancement, durability: 15})
+        });
+
+        it('enhancement is at 15 or 16', () => {
+            const fifthteenEnchancement = {
+                name: 'woodenstick',
+                enhancement: 15,
+                durability: 20
+            }
+
+            const sixteenEnchancement = {
+                name: 'woodenstick with brace',
+                enhancement: 16,
+                durability: 19
+            }
+
+            const actualEnchancement = fail(fifthteenEnchancement);
+
+            expect(actualEnchancement).toMatchObject({...fifthteenEnchancement, durability: 10})
+            expect(fail(sixteenEnchancement)).toMatchObject({...sixteenEnchancement, durability: 9})
+        });
+
+        it('enhancement is at 16 or greater, lower enhancement by 1', () => {
+            const highestEnchancement = {
+                name: 'arrowblade',
+                enhancement: 20,
+                durability: 50
+            }
+
+            const seventeenLvlEnchancement = {
+                name: 'sledgehammer',
+                enhancement: 17,
+                durability: 99
+            }
+
+            const actualEnchancement = fail(highestEnchancement);
+
+            expect(actualEnchancement).toMatchObject({...highestEnchancement, durability: 40, enhancement: 19})
+            expect(fail(seventeenLvlEnchancement)).toMatchObject({...seventeenLvlEnchancement, durability: 89, enhancement: 16})
+        });
     }); // end of fail test
 
 
